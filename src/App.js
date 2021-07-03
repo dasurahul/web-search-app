@@ -3,8 +3,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import Spinner from "react-bootstrap/Spinner";
 
 import styled from "styled-components";
 
@@ -14,12 +19,18 @@ const Details = styled.p`
 
 const Provider = styled.span`
   margin-right: 6px;
+  text-transform: uppercase;
 `;
 
 const Date = styled.span``;
 
+const IconContainer = styled.div`
+  cursor: pointer;
+`;
+
 const App = () => {
   const [trendingNews, setTrendingNews] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const options = {
       method: "GET",
@@ -39,14 +50,29 @@ const App = () => {
       .request(options)
       .then(function (response) {
         setTrendingNews(response.data.value);
+        setLoading(false);
       })
       .catch(function (error) {
         console.error(error);
+        setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+      >
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h1>Hello React!</h1>
+      <h1 className="text-center" style={{ marginBottom: "20px" }}>
+        Trending News
+      </h1>
       <Container>
         {trendingNews.map((news) => {
           return (
@@ -74,6 +100,15 @@ const App = () => {
             </Card>
           );
         })}
+        <IconContainer
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "10px 0",
+          }}
+        >
+          <ExpandMoreIcon />
+        </IconContainer>
       </Container>
     </div>
   );
