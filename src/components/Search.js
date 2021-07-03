@@ -14,6 +14,7 @@ const StyledButton = styled(Button)`
   color: #555;
   background-color: #fafafa;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
   &:hover {
     border: 1px solid #aaa;
     color: #555;
