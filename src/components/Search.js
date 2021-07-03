@@ -14,9 +14,8 @@ const StyledButton = styled(Button)`
   color: #555;
   background-color: #fafafa;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-  letter-spacing: 1px;
   &:hover {
-    border: 1px solid #aaa;
+    border: 1px solid #ddd;
     color: #555;
     background-color: #fafafa;
   }
@@ -81,6 +80,29 @@ const Search = () => {
             style={{ paddingLeft: "38px" }}
           />
         </Form.Group>
+        <ListGroup style={{ position: "absolute", zIndex: "1", width: "100%" }}>
+          {items.map((item) => {
+            return (
+              <ListGroup.Item
+                key={item}
+                onClick={() => setInput(item)}
+                style={{ cursor: "pointer", padding: "0" }}
+              >
+                <i
+                  className="fa fa-search"
+                  style={{
+                    color: "#aaa",
+                    width: "38px",
+                    height: "38px",
+                    lineHeight: "38px",
+                    textAlign: "center",
+                  }}
+                ></i>
+                {item}
+              </ListGroup.Item>
+            );
+          })}
+        </ListGroup>
         <Form.Group
           style={{
             display: "flex",
@@ -89,16 +111,9 @@ const Search = () => {
             marginTop: "20px",
           }}
         >
-          <StyledButton variant="outline-secondary">Web Search</StyledButton>
-          <StyledButton variant="outline-secondary">Image Search</StyledButton>
+          <StyledButton variant="outline-primary">Web Search</StyledButton>
+          <StyledButton variant="outline-primary">Image Search</StyledButton>
         </Form.Group>
-        <ListGroup
-          style={{ position: "absolute", zIndex: "1", left: "0", right: "0" }}
-        >
-          {items.map((item) => {
-            return <ListGroup.Item key={item}>{item}</ListGroup.Item>;
-          })}
-        </ListGroup>
       </Form>
     </Container>
   );
