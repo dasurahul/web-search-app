@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import { useHistory } from "react-router-dom";
+
 import styled from "styled-components";
 
 const StyledButton = styled(Button)`
@@ -24,6 +26,7 @@ const StyledButton = styled(Button)`
 const Search = () => {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState("");
+  const history = useHistory();
   useEffect(() => {
     const options = {
       method: "GET",
@@ -47,6 +50,10 @@ const Search = () => {
   const inputHandler = (event) => {
     setInput(event.target.value);
   };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    history.push(`/search/${input}`);
+  };
   return (
     <Container>
       <Form
@@ -56,6 +63,7 @@ const Search = () => {
           maxWidth: "500px",
           position: "relative",
         }}
+        onSubmit={submitHandler}
       >
         <Form.Group>
           <span
@@ -111,7 +119,9 @@ const Search = () => {
             marginTop: "20px",
           }}
         >
-          <StyledButton variant="outline-primary">Web Search</StyledButton>
+          <StyledButton variant="outline-primary" type="submit">
+            Web Search
+          </StyledButton>
           <StyledButton variant="outline-primary">Image Search</StyledButton>
         </Form.Group>
       </Form>

@@ -7,10 +7,10 @@ import { Route } from "react-router-dom";
 const App = () => {
   return (
     <div>
-      <Route path="/">
+      <Route exact path="/">
         <Home />
       </Route>
-      <Route path="/search">
+      <Route path="/search/:query">
         <SearchPage />
       </Route>
     </div>
