@@ -75,6 +75,8 @@ const News = () => {
       </h1>
       <Container>
         {trendingNews.map((news) => {
+          const date = new window.Date(news.datePublished);
+          const dateString = date.toDateString();
           return (
             <Card
               key={news.id}
@@ -96,7 +98,7 @@ const News = () => {
                 <Details>
                   <Provider>{news.provider.name}</Provider>
                   <span style={{ marginRight: "6px" }}>•</span>
-                  <Date>{news.datePublished}</Date>
+                  <Date>{dateString}</Date>
                 </Details>
                 <Card.Link href={news.url} target="_blank">
                   Read
