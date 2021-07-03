@@ -88,9 +88,14 @@ const App = () => {
               <Card.Img variant="top" src={news.image.url} />
               <Card.Body>
                 <Card.Title>{news.title}</Card.Title>
-                <Card.Text>{news.description}</Card.Text>
+                <Card.Text>
+                  {news.description.length > 50
+                    ? news.description.slice(0, 50).concat("...")
+                    : news.description}
+                </Card.Text>
                 <Details>
                   <Provider>{news.provider.name}</Provider>
+                  <span style={{ marginRight: "6px" }}>•</span>
                   <Date>{news.datePublished}</Date>
                 </Details>
                 <Card.Link href={news.url} target="_blank">
