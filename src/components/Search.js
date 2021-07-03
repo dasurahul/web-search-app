@@ -7,6 +7,20 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import styled from "styled-components";
+
+const StyledButton = styled(Button)`
+  border: 1px solid #fff;
+  color: #555;
+  background-color: #fafafa;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  &:hover {
+    border: 1px solid #aaa;
+    color: #555;
+    background-color: #fafafa;
+  }
+`;
+
 const Search = () => {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState("");
@@ -43,7 +57,7 @@ const Search = () => {
           position: "relative",
         }}
       >
-        <Form.Group style={{ paddingLeft: "38px" }}>
+        <Form.Group>
           <span
             className="fa fa-search"
             style={{
@@ -74,8 +88,8 @@ const Search = () => {
             marginTop: "20px",
           }}
         >
-          <Button variant="outline-secondary">Web Search</Button>
-          <Button variant="outline-secondary">Image Search</Button>
+          <StyledButton variant="outline-secondary">Web Search</StyledButton>
+          <StyledButton variant="outline-secondary">Image Search</StyledButton>
         </Form.Group>
         <ListGroup
           style={{ position: "absolute", zIndex: "1", left: "0", right: "0" }}
