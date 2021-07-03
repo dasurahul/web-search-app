@@ -42,12 +42,29 @@ const Search = () => {
           position: "relative",
         }}
       >
-        <Form.Control
-          type="text"
-          onChange={inputHandler}
-          value={input}
-          placeholder="Search"
-        />
+        <Form.Group style={{ paddingLeft: "38px" }}>
+          <span
+            className="fa fa-search"
+            style={{
+              position: "absolute",
+              zIndex: "1",
+              display: "block",
+              width: "38px",
+              height: "38px",
+              lineHeight: "38px",
+              textAlign: "center",
+              pointerEvents: "none",
+              color: "#aaa",
+            }}
+          ></span>
+          <Form.Control
+            type="text"
+            onChange={inputHandler}
+            value={input}
+            placeholder="Search"
+            style={{ paddingLeft: "38px" }}
+          />
+        </Form.Group>
         <ListGroup
           style={{ position: "absolute", zIndex: "1", left: "0", right: "0" }}
         >
