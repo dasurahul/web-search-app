@@ -1,12 +1,18 @@
 import React from "react";
-import Search from "./components/Search";
-import News from "./components/News";
+import Home from "./pages/Home";
+import SearchPage from "./pages/SearchPage";
+
+import { Route } from "react-router-dom";
 
 const App = () => {
   return (
     <div>
-      <Search />
-      <News />
+      <Route path="/">
+        <Home />
+      </Route>
+      <Route path="/search">
+        <SearchPage />
+      </Route>
     </div>
   );
 };
