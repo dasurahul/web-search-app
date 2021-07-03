@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const Search = () => {
@@ -64,6 +65,17 @@ const Search = () => {
             placeholder="Search"
             style={{ paddingLeft: "38px" }}
           />
+        </Form.Group>
+        <Form.Group
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "12px",
+            marginTop: "20px",
+          }}
+        >
+          <Button variant="outline-secondary">Web Search</Button>
+          <Button variant="outline-secondary">Image Search</Button>
         </Form.Group>
         <ListGroup
           style={{ position: "absolute", zIndex: "1", left: "0", right: "0" }}
