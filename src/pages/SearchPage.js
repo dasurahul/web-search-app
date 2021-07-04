@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import axios from "axios";
+
 import { useParams } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 
-import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
+
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
 import styled from "styled-components";
 
@@ -20,6 +24,8 @@ const SearchPage = () => {
   const { q } = useParams();
   const [webSearch, setWebSearch] = useState([]);
   const [relatedSearch, setRelatedSearch] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const totalCount = useRef(0);
   useEffect(() => {
     const options = {
@@ -44,9 +50,36 @@ const SearchPage = () => {
         setRelatedSearch(response.data.relatedSearch);
       })
       .catch(function (error) {
-        console.log(error.response);
+        if (!error.response) {
+          setError("Something went wrong");
+          setLoading(false);
+        } else {
+          setError(error.response.statusText);
+          setLoading(false);
+        }
       });
   }, [q]);
+
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+      >
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+      >
+        <ErrorOutlineIcon style={{ marginRight: "6px" }} />
+        {error}
+      </div>
+    );
+  }
 
   return (
     <Container>
