@@ -44,7 +44,7 @@ const SearchPage = () => {
         setRelatedSearch(response.data.relatedSearch);
       })
       .catch(function (error) {
-        console.error(error);
+        console.log(error.response);
       });
   }, [q]);
 

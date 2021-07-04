@@ -94,8 +94,21 @@ const News = () => {
       </h1>
       <Container>
         {trendingNews.map((news) => {
-          const date = new window.Date(news.datePublished);
-          const dateString = date.toDateString();
+          var now = new window.Date();
+          var then = new window.Date(news.datePublished);
+          var diffMs = now - then;
+          var diffDays = Math.floor(diffMs / 86400000);
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+          var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+          let date = diffMins;
+          if (diffHrs > 0) {
+            date = diffHrs + " hours " + diffMins + " minutes";
+          }
+
+          if (diffDays > 0) {
+            date =
+              diffDays + " days " + diffHrs + " hours " + diffMins + " minutes";
+          }
           return (
             <Card
               key={news.id}
@@ -117,7 +130,7 @@ const News = () => {
                 <Details>
                   <Provider>{news.provider.name}</Provider>
                   <span style={{ marginRight: "6px" }}>•</span>
-                  <Date>{dateString}</Date>
+                  <Date>{date}</Date>
                 </Details>
                 <Card.Link href={news.url} target="_blank">
                   Read
