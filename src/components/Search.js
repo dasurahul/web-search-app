@@ -47,7 +47,7 @@ const Search = () => {
         }
       })
       .catch(function (error) {
-        console.error(error);
+        console.log(error);
       });
     return () => {
       mounted = false;
@@ -98,6 +98,9 @@ const Search = () => {
             placeholder="Search"
             style={{ paddingLeft: "38px" }}
             isInvalid={isInvalid}
+            onBlur={() => {
+              setIsInvalid(false);
+            }}
           />
         </Form.Group>
         <ListGroup style={{ position: "absolute", zIndex: "1", width: "100%" }}>
