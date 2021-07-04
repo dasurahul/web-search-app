@@ -12,20 +12,20 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledButton = styled(Button)`
-  border: 1px solid #fff;
+  border: 1px solid #ccc;
   color: #555;
-  background-color: #fafafa;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   &:hover {
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     color: #555;
-    background-color: #fafafa;
+    background-color: #fff;
   }
 `;
 
 const Search = () => {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState("");
+  const [isInvalid, setIsInvalid] = useState(false);
   const history = useHistory();
   useEffect(() => {
     let mounted = true;
@@ -54,10 +54,15 @@ const Search = () => {
     };
   }, [input]);
   const inputHandler = (event) => {
+    setIsInvalid(false);
     setInput(event.target.value);
   };
   const submitHandler = (event) => {
     event.preventDefault();
+    if (input.trim().length === 0) {
+      setIsInvalid(true);
+      return;
+    }
     history.push(`/search/${input}`);
   };
   return (
@@ -92,6 +97,7 @@ const Search = () => {
             value={input}
             placeholder="Search"
             style={{ paddingLeft: "38px" }}
+            isInvalid={isInvalid}
           />
         </Form.Group>
         <ListGroup style={{ position: "absolute", zIndex: "1", width: "100%" }}>
