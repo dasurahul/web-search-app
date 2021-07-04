@@ -89,7 +89,7 @@ const News = () => {
 
   return (
     <div>
-      <h1 className="text-center" style={{ margin: "20px 0" }}>
+      <h1 className="text-center" style={{ margin: "30px 0" }}>
         Trending News
       </h1>
       <Container>
@@ -114,7 +114,7 @@ const News = () => {
               key={news.id}
               style={{
                 width: "90%",
-                maxWidth: "500px",
+                maxWidth: "750px",
                 margin: "0 auto",
                 marginBottom: "20px",
               }}

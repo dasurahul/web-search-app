@@ -71,7 +71,7 @@ const Search = () => {
         style={{
           width: "90%",
           margin: "20px auto",
-          maxWidth: "500px",
+          maxWidth: "750px",
           position: "relative",
         }}
         onSubmit={submitHandler}
