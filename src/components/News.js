@@ -11,6 +11,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Spinner from "react-bootstrap/Spinner";
 
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+
 import styled from "styled-components";
 
 const Details = styled.p`
@@ -31,6 +33,7 @@ const IconContainer = styled.div`
 const News = () => {
   const [trendingNews, setTrendingNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
     const options = {
       method: "GET",
@@ -53,8 +56,13 @@ const News = () => {
         setLoading(false);
       })
       .catch(function (error) {
-        console.error(error);
-        setLoading(false);
+        if (!error.response) {
+          setError("Something went wrong");
+          setLoading(false);
+        } else {
+          setError(error.response.statusText);
+          setLoading(false);
+        }
       });
   }, []);
 
@@ -64,6 +72,17 @@ const News = () => {
         style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
       >
         <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+      >
+        <ErrorOutlineIcon style={{ marginRight: "6px" }} />
+        {error}
       </div>
     );
   }
