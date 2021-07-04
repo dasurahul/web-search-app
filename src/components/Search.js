@@ -103,7 +103,13 @@ const Search = () => {
             }}
           />
         </Form.Group>
-        <ListGroup style={{ position: "absolute", zIndex: "1", width: "100%" }}>
+        <ListGroup
+          style={{
+            position: "absolute",
+            zIndex: "1",
+            width: "100%",
+          }}
+        >
           {items.map((item) => {
             return (
               <ListGroup.Item
