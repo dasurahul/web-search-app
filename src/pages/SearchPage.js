@@ -86,6 +86,9 @@ const SearchPage = () => {
 
   return (
     <Container style={{ maxWidth: "750px" }}>
+      <h2 className="text-center" style={{ margin: "20px 0" }}>
+        Web Search
+      </h2>
       <Form style={{ margin: "20px 0" }}>
         <Form.Group>
           <span>
