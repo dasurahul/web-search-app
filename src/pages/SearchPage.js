@@ -24,17 +24,30 @@ const StyledLink = styled.a`
 
 const SearchPage = () => {
   const { q } = useParams();
+  const [input, setInput] = useState(q);
   const [webSearch, setWebSearch] = useState([]);
   const [relatedSearch, setRelatedSearch] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isInvalid, setIsInvalid] = useState(false);
   const totalCount = useRef(0);
-  useEffect(() => {
+
+  const updateTitle = (value) => {
+    document.title = value;
+  };
+
+  const inputHandler = (event) => {
+    setIsInvalid(false);
+    setInput(event.target.value);
+  };
+
+  const get = (value) => {
+    setLoading(true);
     const options = {
       method: "GET",
       url: "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI",
       params: {
-        q: q,
+        q: value,
         pageNumber: "1",
         pageSize: "10",
         autoCorrect: "true",
@@ -61,6 +74,19 @@ const SearchPage = () => {
           setLoading(false);
         }
       });
+  };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (input.trim().length === 0) {
+      setIsInvalid(true);
+      return;
+    }
+    get(input);
+    updateTitle(`${input} - Web Search`);
+  };
+  useEffect(() => {
+    get(q);
+    updateTitle(`${q} - Web Search`);
   }, [q]);
 
   if (loading) {
@@ -89,7 +115,7 @@ const SearchPage = () => {
       <h2 className="text-center" style={{ margin: "20px 0" }}>
         Web Search
       </h2>
-      <Form style={{ margin: "20px 0" }}>
+      <Form style={{ margin: "20px 0" }} onSubmit={submitHandler}>
         <Form.Group>
           <span>
             <i
@@ -105,12 +131,20 @@ const SearchPage = () => {
               }}
             ></i>
           </span>
-          <Form.Control type="text" style={{ paddingLeft: "38px" }} />
+          <Form.Control
+            type="text"
+            style={{ paddingLeft: "38px" }}
+            onChange={inputHandler}
+            value={input}
+            isInvalid={isInvalid}
+            onBlur={() => {
+              setIsInvalid(false);
+            }}
+          />
         </Form.Group>
       </Form>
       <p>About {totalCount.current} results</p>
       {webSearch.map((item) => {
-        const date = new window.Date(item.datePublished).toDateString();
         return (
           <div style={{ marginBottom: "40px" }}>
             <div style={{ marginBottom: "8px" }}>{item.url}</div>
@@ -124,7 +158,9 @@ const SearchPage = () => {
                 ? item.description.slice(0, 200).concat("...")
                 : item.description}
             </div>
-            <div style={{ marginBottom: "8px", color: "#666" }}>{date}</div>
+            <div style={{ marginBottom: "8px", color: "#666" }}>
+              By {item.provider.name}
+            </div>
           </div>
         );
       })}

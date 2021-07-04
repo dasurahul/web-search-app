@@ -42,7 +42,7 @@ const News = () => {
         pageNumber: "1",
         pageSize: "10",
         withThumbnails: "false",
-        location: "in",
+        location: "us",
       },
       headers: {
         "x-rapidapi-key": "d84e7a8fb6msh1b306d85f61613ap102416jsn062c1ca70521",
