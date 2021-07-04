@@ -11,6 +11,8 @@ import Spinner from "react-bootstrap/Spinner";
 
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
+import ListGroup from "react-bootstrap/ListGroup";
+
 import styled from "styled-components";
 
 const StyledLink = styled.a`
@@ -48,6 +50,7 @@ const SearchPage = () => {
         totalCount.current = response.data.totalCount;
         setWebSearch(response.data.value);
         setRelatedSearch(response.data.relatedSearch);
+        setLoading(false);
       })
       .catch(function (error) {
         if (!error.response) {
@@ -82,7 +85,7 @@ const SearchPage = () => {
   }
 
   return (
-    <Container>
+    <Container style={{ maxWidth: "750px" }}>
       <Form style={{ margin: "20px 0" }}>
         <Form.Group>
           <span>
@@ -114,8 +117,8 @@ const SearchPage = () => {
               </StyledLink>
             </h5>
             <div>
-              {item.description.length > 120
-                ? item.description.slice(0, 120).concat("...")
+              {item.description.length > 200
+                ? item.description.slice(0, 200).concat("...")
                 : item.description}
             </div>
             <div style={{ marginBottom: "8px", color: "#666" }}>{date}</div>
@@ -124,10 +127,10 @@ const SearchPage = () => {
       })}
       <h5>Related Searches</h5>
       <hr />
-      {relatedSearch.map((item) => {
-        return (
-          <div>
-            <p>
+      <ListGroup style={{ marginBottom: "20px" }}>
+        {relatedSearch.map((item) => {
+          return (
+            <ListGroup.Item key={item}>
               <i
                 className="fa fa-search"
                 style={{
@@ -140,11 +143,11 @@ const SearchPage = () => {
                   color: "#aaa",
                 }}
               ></i>
-              {item.substring(3).substring(0, item.length - 7)}
-            </p>
-          </div>
-        );
-      })}
+              {item}
+            </ListGroup.Item>
+          );
+        })}
+      </ListGroup>
     </Container>
   );
 };
