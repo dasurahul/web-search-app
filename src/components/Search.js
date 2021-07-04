@@ -28,6 +28,7 @@ const Search = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
   useEffect(() => {
+    let mounted = true;
     const options = {
       method: "GET",
       url: "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/spelling/AutoComplete",
@@ -41,11 +42,16 @@ const Search = () => {
     axios
       .request(options)
       .then(function (response) {
-        setItems(response.data);
+        if (mounted) {
+          setItems(response.data);
+        }
       })
       .catch(function (error) {
         console.error(error);
       });
+    return () => {
+      mounted = false;
+    };
   }, [input]);
   const inputHandler = (event) => {
     setInput(event.target.value);

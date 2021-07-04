@@ -10,7 +10,7 @@ const App = () => {
       <Route exact path="/">
         <Home />
       </Route>
-      <Route path="/search/:query">
+      <Route path="/search/:q">
         <SearchPage />
       </Route>
     </div>
