@@ -173,7 +173,7 @@ const SearchPage = () => {
                 : item.description}
             </div>
             <div style={{ marginBottom: "8px", color: "#666" }}>
-              By {item.provider.name}
+              By {item.provider.name.toUpperCase()}
             </div>
           </div>
         );
