@@ -1,8 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
 import Search from "../components/Search";
 import News from "../components/News";
 
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+
+import Collapse from "@material-ui/core/Collapse";
+
 const Home = () => {
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     document.title = `Web Search`;
   }, []);
@@ -12,7 +20,33 @@ const Home = () => {
         Web Search
       </h1>
       <Search />
-      <News />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          maxWidth: "750px",
+          margin: "20px auto",
+        }}
+      >
+        <FormGroup>
+          <FormControlLabel
+            value="end"
+            control={
+              <Switch
+                color="primary"
+                onClick={() => {
+                  setOpen((value) => !value);
+                }}
+              />
+            }
+            label="See News"
+            labelPlacement="end"
+          />
+        </FormGroup>
+      </div>
+      <Collapse in={open}>
+        <News />
+      </Collapse>
     </div>
   );
 };
