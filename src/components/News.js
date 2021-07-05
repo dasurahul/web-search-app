@@ -89,9 +89,9 @@ const News = () => {
 
   return (
     <div>
-      <h1 className="text-center" style={{ margin: "30px 0" }}>
+      <h2 className="text-center" style={{ margin: "30px 0" }}>
         Trending News
-      </h1>
+      </h2>
       <Container>
         {trendingNews.map((news) => {
           var now = new window.Date();
