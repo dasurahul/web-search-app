@@ -114,7 +114,10 @@ const Search = () => {
             return (
               <ListGroup.Item
                 key={item}
-                onClick={() => setInput(item)}
+                onClick={() => {
+                  setInput(item);
+                  submitHandler();
+                }}
                 style={{ cursor: "pointer", padding: "0" }}
               >
                 <i

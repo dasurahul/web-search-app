@@ -153,7 +153,7 @@ const SearchPage = () => {
       </Form>
       <Breadcrumb>
         <Breadcrumb.Item onClick={() => history.push("/")}>
-          Home
+          Web Search
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{q}</Breadcrumb.Item>
       </Breadcrumb>
