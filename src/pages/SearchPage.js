@@ -161,15 +161,17 @@ const SearchPage = () => {
       {webSearch.map((item) => {
         return (
           <div key={item.url} style={{ marginBottom: "40px" }}>
-            <div style={{ marginBottom: "8px" }}>{item.url}</div>
+            <div style={{ marginBottom: "8px", overflowX: "hidden" }}>
+              {item.url}
+            </div>
             <h5>
               <StyledLink href={item.url} target="_blank" rel="noreferrer">
                 {item.title}
               </StyledLink>
             </h5>
             <div>
-              {item.description.length > 200
-                ? item.description.slice(0, 200).concat("...")
+              {item.description.length > 120
+                ? item.description.slice(0, 120).concat("...")
                 : item.description}
             </div>
             <div style={{ marginBottom: "8px", color: "#666" }}>

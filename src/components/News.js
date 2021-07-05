@@ -7,8 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import Spinner from "react-bootstrap/Spinner";
 
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
@@ -25,10 +23,6 @@ const Provider = styled.span`
 `;
 
 const Date = styled.span``;
-
-const IconContainer = styled.div`
-  cursor: pointer;
-`;
 
 const News = () => {
   const [trendingNews, setTrendingNews] = useState([]);
@@ -89,65 +83,67 @@ const News = () => {
 
   return (
     <div>
-      <h2 className="text-center" style={{ margin: "30px 0" }}>
+      <h2 className="text-center" style={{ margin: "80px 0" }}>
         Trending News
       </h2>
       <Container>
-        {trendingNews.map((news) => {
-          var now = new window.Date();
-          var then = new window.Date(news.datePublished);
-          var diffMs = now - then;
-          var diffDays = Math.floor(diffMs / 86400000);
-          var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-          var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-          let date = diffMins;
-          if (diffHrs > 0) {
-            date = diffHrs + " hours " + diffMins + " minutes";
-          }
+        {trendingNews.length > 0 &&
+          trendingNews.map((news) => {
+            var now = new window.Date();
+            var then = new window.Date(news.datePublished);
+            var diffMs = now - then;
+            var diffDays = Math.floor(diffMs / 86400000);
+            var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+            let date = diffMins;
+            if (diffHrs > 0) {
+              date = diffHrs + " hours " + diffMins + " minutes";
+            }
 
-          if (diffDays > 0) {
-            date =
-              diffDays + " days " + diffHrs + " hours " + diffMins + " minutes";
-          }
-          return (
-            <Card
-              key={news.id}
-              style={{
-                width: "90%",
-                maxWidth: "750px",
-                margin: "0 auto",
-                marginBottom: "20px",
-              }}
-            >
-              <Card.Img variant="top" src={news.image.url} />
-              <Card.Body>
-                <Card.Title>{news.title}</Card.Title>
-                <Card.Text>
-                  {news.description.length > 50
-                    ? news.description.slice(0, 50).concat("...")
-                    : news.description}
-                </Card.Text>
-                <Details>
-                  <Provider>{news.provider.name}</Provider>
-                  <span style={{ marginRight: "6px" }}>•</span>
-                  <Date>{date}</Date>
-                </Details>
-                <Card.Link href={news.url} target="_blank">
-                  Read
-                </Card.Link>
-              </Card.Body>
-            </Card>
-          );
-        })}
-        <IconContainer
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px 0",
-          }}
-        >
-          <ExpandMoreIcon />
-        </IconContainer>
+            if (diffDays > 0) {
+              date =
+                diffDays +
+                " days " +
+                diffHrs +
+                " hours " +
+                diffMins +
+                " minutes";
+            }
+            return (
+              <Card
+                key={news.id}
+                style={{
+                  width: "90%",
+                  maxWidth: "750px",
+                  margin: "0 auto",
+                  marginBottom: "20px",
+                }}
+              >
+                <Card.Img variant="top" src={news.image.url} />
+                <Card.Body>
+                  <Card.Title>{news.title}</Card.Title>
+                  <Card.Text>
+                    {news.description.length > 50
+                      ? news.description.slice(0, 50).concat("...")
+                      : news.description}
+                  </Card.Text>
+                  <Details>
+                    <Provider>{news.provider.name}</Provider>
+                    <span style={{ marginRight: "6px" }}>•</span>
+                    <Date>{date}</Date>
+                  </Details>
+                  <Card.Link href={news.url} target="_blank">
+                    Read
+                  </Card.Link>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        {trendingNews.length === 0 && (
+          <p className="text-center" style={{ margin: "20px 0" }}>
+            No News Found
+          </p>
+        )}
       </Container>
     </div>
   );

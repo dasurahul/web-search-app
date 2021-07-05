@@ -1,52 +1,91 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import Search from "../components/Search";
 import News from "../components/News";
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import styled from "styled-components";
 
-import Collapse from "@material-ui/core/Collapse";
+const Footer = styled.div``;
+
+const LinksContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  text-decoration: underline;
+  cursor: pointer;
+  @media (max-width: 750px) {
+    flex-direction: column;
+  }
+`;
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
   useEffect(() => {
     document.title = `Web Search`;
   }, []);
   return (
     <div>
-      <h1 className="text-center" style={{ margin: "40px 0" }}>
+      <h1
+        className="text-center"
+        style={{ margin: "40px 0", marginTop: "20vh" }}
+      >
         Web Search
       </h1>
       <Search />
       <div
+        className="text-center"
         style={{
-          display: "flex",
-          justifyContent: "flex-end",
           maxWidth: "750px",
           margin: "20px auto",
         }}
       >
-        <FormGroup>
-          <FormControlLabel
-            value="end"
-            control={
-              <Switch
-                color="primary"
-                onClick={() => {
-                  setOpen((value) => !value);
-                }}
-              />
-            }
-            label="Show News"
-            labelPlacement="end"
-          />
-        </FormGroup>
+        Web Search offered in{" "}
+        <span
+          className="text-primary"
+          style={{ textDecoration: "underline", cursor: "pointer" }}
+        >
+          english
+        </span>{" "}
+        <span
+          className="text-primary"
+          style={{ textDecoration: "underline", cursor: "pointer" }}
+        >
+          hindi
+        </span>{" "}
+        <span
+          className="text-primary"
+          style={{ textDecoration: "underline", cursor: "pointer" }}
+        >
+          tamil
+        </span>{" "}
+        <span
+          className="text-primary"
+          style={{ textDecoration: "underline", cursor: "pointer" }}
+        >
+          telugu
+        </span>
       </div>
-      <Collapse in={open}>
-        <News />
-      </Collapse>
+      <News />
+      <Footer style={{ padding: "20px", marginTop: "150px" }}>
+        <div>US</div>
+        <hr />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <LinksContainer className="text-primary">
+            <div>About</div>
+            <div>Advertising</div>
+            <div>Business</div>
+            <div>How Search works</div>
+          </LinksContainer>
+          <LinksContainer className="text-primary">
+            <div>Privacy</div>
+            <div>Terms</div>
+            <div>Settings</div>
+          </LinksContainer>
+        </div>
+      </Footer>
     </div>
   );
 };
