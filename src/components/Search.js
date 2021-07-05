@@ -116,7 +116,7 @@ const Search = () => {
                 key={item}
                 onClick={() => {
                   setInput(item);
-                  submitHandler();
+                  history.push(`/search/${input}`);
                 }}
                 style={{ cursor: "pointer", padding: "0" }}
               >
