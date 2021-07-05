@@ -13,6 +13,10 @@ import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
 import ListGroup from "react-bootstrap/ListGroup";
 
+import { useHistory } from "react-router-dom";
+
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+
 import styled from "styled-components";
 
 const StyledLink = styled.a`
@@ -31,6 +35,7 @@ const SearchPage = () => {
   const [error, setError] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
   const totalCount = useRef(0);
+  const history = useHistory();
 
   const updateTitle = (value) => {
     document.title = value;
@@ -41,14 +46,14 @@ const SearchPage = () => {
     setInput(event.target.value);
   };
 
-  const get = (value) => {
+  const get = (value, pageNumber = 1) => {
     setLoading(true);
     const options = {
       method: "GET",
       url: "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI",
       params: {
         q: value,
-        pageNumber: "1",
+        pageNumber: pageNumber,
         pageSize: "10",
         autoCorrect: "true",
       },
@@ -81,8 +86,7 @@ const SearchPage = () => {
       setIsInvalid(true);
       return;
     }
-    get(input);
-    updateTitle(`${input} - Web Search`);
+    history.push(`/search/${input}`);
   };
   useEffect(() => {
     get(q);
@@ -112,7 +116,11 @@ const SearchPage = () => {
 
   return (
     <Container style={{ maxWidth: "750px" }}>
-      <h2 className="text-center" style={{ margin: "20px 0" }}>
+      <h2
+        className="text-center"
+        style={{ margin: "20px 0", cursor: "pointer" }}
+        onClick={() => history.push("/")}
+      >
         Web Search
       </h2>
       <Form style={{ margin: "20px 0" }} onSubmit={submitHandler}>
@@ -143,10 +151,16 @@ const SearchPage = () => {
           />
         </Form.Group>
       </Form>
+      <Breadcrumb>
+        <Breadcrumb.Item onClick={() => history.push("/")}>
+          Home
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>{q}</Breadcrumb.Item>
+      </Breadcrumb>
       <p>About {totalCount.current} results</p>
       {webSearch.map((item) => {
         return (
-          <div style={{ marginBottom: "40px" }}>
+          <div key={item.url} style={{ marginBottom: "40px" }}>
             <div style={{ marginBottom: "8px" }}>{item.url}</div>
             <h5>
               <StyledLink href={item.url} target="_blank" rel="noreferrer">
@@ -168,6 +182,7 @@ const SearchPage = () => {
       <hr />
       <ListGroup style={{ marginBottom: "20px" }}>
         {relatedSearch.map((item) => {
+          let itemString = item.replace(/(<([^>]+)>)/gi, "");
           return (
             <ListGroup.Item key={item}>
               <i
@@ -182,7 +197,7 @@ const SearchPage = () => {
                   color: "#aaa",
                 }}
               ></i>
-              {item}
+              {itemString}
             </ListGroup.Item>
           );
         })}
