@@ -39,7 +39,7 @@ const Home = () => {
                 }}
               />
             }
-            label="See News"
+            label="Show News"
             labelPlacement="end"
           />
         </FormGroup>
