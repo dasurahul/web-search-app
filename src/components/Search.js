@@ -28,7 +28,7 @@ const Search = () => {
   const [isInvalid, setIsInvalid] = useState(false);
   const history = useHistory();
   useEffect(() => {
-    let mounted = true;
+    let cancel;
     const options = {
       method: "GET",
       url: "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/spelling/AutoComplete",
@@ -37,20 +37,19 @@ const Search = () => {
         "x-rapidapi-key": "d84e7a8fb6msh1b306d85f61613ap102416jsn062c1ca70521",
         "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
       },
+      cancelToken: new axios.CancelToken((c) => (cancel = c)),
     };
 
     axios
       .request(options)
       .then(function (response) {
-        if (mounted) {
-          setItems(response.data);
-        }
+        setItems(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        if (axios.isCancel(error)) return;
       });
     return () => {
-      mounted = false;
+      cancel();
     };
   }, [input]);
   const inputHandler = (event) => {
