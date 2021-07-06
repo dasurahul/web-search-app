@@ -5,9 +5,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
+
 import Form from "react-bootstrap/Form";
 
-import Spinner from "react-bootstrap/Spinner";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
@@ -114,16 +115,6 @@ const SearchPage = () => {
     setCurrentPage(page);
   };
 
-  if (loading) {
-    return (
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
-      >
-        <Spinner animation="border" variant="primary" />
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div
@@ -172,75 +163,95 @@ const SearchPage = () => {
           />
         </Form.Group>
       </Form>
-      <Breadcrumb>
-        <Breadcrumb.Item onClick={() => history.push("/")}>
-          Web Search
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>{q}</Breadcrumb.Item>
-      </Breadcrumb>
-      <p>About {totalCount.current} results</p>
+      {loading ? (
+        <Skeleton />
+      ) : (
+        <Breadcrumb>
+          <Breadcrumb.Item onClick={() => history.push("/")}>
+            Web Search
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>{q}</Breadcrumb.Item>
+        </Breadcrumb>
+      )}
+      {loading ? <Skeleton /> : <p>About {totalCount.current} results</p>}
       {webSearch.map((item) => {
         return (
           <div key={item.url} style={{ marginBottom: "40px" }}>
-            <Url>{item.url}</Url>
+            <Url>{loading ? <Skeleton /> : item.url}</Url>
             <h5>
               <StyledLink href={item.url} target="_blank" rel="noreferrer">
-                {item.title}
+                {loading ? <Skeleton /> : item.title}
               </StyledLink>
             </h5>
             <div>
-              {item.description.length > 120
-                ? item.description.slice(0, 120).concat("...")
-                : item.description}
+              {loading ? (
+                <Skeleton />
+              ) : item.description.length > 120 ? (
+                item.description.slice(0, 120).concat("...")
+              ) : (
+                item.description
+              )}
             </div>
             <div style={{ marginBottom: "8px", color: "#666" }}>
-              By {item.provider.name.toUpperCase()}
+              {loading ? (
+                <Skeleton />
+              ) : (
+                `By ${item.provider.name.toUpperCase()}`
+              )}
             </div>
           </div>
         );
       })}
       {relatedSearch.length > 0 && (
         <div>
-          <h5>Related Searches</h5>
-          <hr />
-          <ListGroup style={{ marginBottom: "20px" }}>
-            {relatedSearch.map((item) => {
-              let itemString = item.replace(/(<([^>]+)>)/gi, "");
-              return (
-                <ListGroup.Item
-                  key={item}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setInput(itemString);
-                    history.push(`/search/${itemString}`);
-                  }}
-                >
-                  <i
-                    className="fa fa-search"
-                    style={{
-                      position: "relative",
-                      zIndex: "1",
-                      height: "38px",
-                      width: "38px",
-                      lineHeight: "38px",
-                      textAlign: "center",
-                      color: "#aaa",
+          <h5>{loading ? <Skeleton /> : "Related Searches"}</h5>
+          {loading ? <Skeleton /> : <hr />}
+          {loading ? (
+            <Skeleton />
+          ) : (
+            <ListGroup style={{ marginBottom: "20px" }}>
+              {relatedSearch.map((item) => {
+                let itemString = item.replace(/(<([^>]+)>)/gi, "");
+                return (
+                  <ListGroup.Item
+                    key={item}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setInput(itemString);
+                      history.push(`/search/${itemString}`);
                     }}
-                  ></i>
-                  {itemString}
-                </ListGroup.Item>
-              );
-            })}
-          </ListGroup>
+                  >
+                    <i
+                      className="fa fa-search"
+                      style={{
+                        position: "relative",
+                        zIndex: "1",
+                        height: "38px",
+                        width: "38px",
+                        lineHeight: "38px",
+                        textAlign: "center",
+                        color: "#aaa",
+                      }}
+                    ></i>
+                    {itemString}
+                  </ListGroup.Item>
+                );
+              })}
+            </ListGroup>
+          )}
         </div>
       )}
-      <Pagination
-        style={{ marginBottom: "20px" }}
-        count={numberOfPages}
-        page={currentPage}
-        onChange={handleChange}
-        shape="rounded"
-      />
+      {loading ? (
+        <Skeleton />
+      ) : (
+        <Pagination
+          style={{ marginBottom: "20px" }}
+          count={numberOfPages}
+          page={currentPage}
+          onChange={handleChange}
+          shape="rounded"
+        />
+      )}
     </Container>
   );
 };

@@ -145,7 +145,6 @@ const Search = () => {
           <StyledButton variant="outline-primary" type="submit">
             Web Search
           </StyledButton>
-          <StyledButton variant="outline-primary">Image Search</StyledButton>
         </Form.Group>
       </Form>
     </Container>
