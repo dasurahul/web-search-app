@@ -103,10 +103,15 @@ const SearchPage = () => {
     history.push(`/search/${input}`);
     setCurrentPage(1);
   };
+
   useEffect(() => {
     get(q);
     updateTitle(`${q} - Web Search`);
   }, [q]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [q, currentPage]);
 
   const numberOfPages = Math.ceil(totalCount.current / 10);
 
