@@ -17,7 +17,19 @@ import { useHistory } from "react-router-dom";
 
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
+import Pagination from "@material-ui/lab/Pagination";
+
 import styled from "styled-components";
+
+const Url = styled.div`
+  margin-bottom: 8px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
 
 const StyledLink = styled.a`
   text-decoration: none;
@@ -35,6 +47,7 @@ const SearchPage = () => {
   const [error, setError] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
   const totalCount = useRef(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const history = useHistory();
 
   const updateTitle = (value) => {
@@ -87,11 +100,19 @@ const SearchPage = () => {
       return;
     }
     history.push(`/search/${input}`);
+    setCurrentPage(1);
   };
   useEffect(() => {
     get(q);
     updateTitle(`${q} - Web Search`);
   }, [q]);
+
+  const numberOfPages = Math.ceil(totalCount.current / 10);
+
+  const handleChange = (event, page) => {
+    get(input, page);
+    setCurrentPage(page);
+  };
 
   if (loading) {
     return (
@@ -161,9 +182,7 @@ const SearchPage = () => {
       {webSearch.map((item) => {
         return (
           <div key={item.url} style={{ marginBottom: "40px" }}>
-            <div style={{ marginBottom: "8px", overflowX: "hidden" }}>
-              {item.url}
-            </div>
+            <Url>{item.url}</Url>
             <h5>
               <StyledLink href={item.url} target="_blank" rel="noreferrer">
                 {item.title}
@@ -180,30 +199,48 @@ const SearchPage = () => {
           </div>
         );
       })}
-      <h5>Related Searches</h5>
-      <hr />
-      <ListGroup style={{ marginBottom: "20px" }}>
-        {relatedSearch.map((item) => {
-          let itemString = item.replace(/(<([^>]+)>)/gi, "");
-          return (
-            <ListGroup.Item key={item}>
-              <i
-                className="fa fa-search"
-                style={{
-                  position: "relative",
-                  zIndex: "1",
-                  height: "38px",
-                  width: "38px",
-                  lineHeight: "38px",
-                  textAlign: "center",
-                  color: "#aaa",
-                }}
-              ></i>
-              {itemString}
-            </ListGroup.Item>
-          );
-        })}
-      </ListGroup>
+      {relatedSearch.length > 0 && (
+        <div>
+          <h5>Related Searches</h5>
+          <hr />
+          <ListGroup style={{ marginBottom: "20px" }}>
+            {relatedSearch.map((item) => {
+              let itemString = item.replace(/(<([^>]+)>)/gi, "");
+              return (
+                <ListGroup.Item
+                  key={item}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setInput(itemString);
+                    history.push(`/search/${itemString}`);
+                  }}
+                >
+                  <i
+                    className="fa fa-search"
+                    style={{
+                      position: "relative",
+                      zIndex: "1",
+                      height: "38px",
+                      width: "38px",
+                      lineHeight: "38px",
+                      textAlign: "center",
+                      color: "#aaa",
+                    }}
+                  ></i>
+                  {itemString}
+                </ListGroup.Item>
+              );
+            })}
+          </ListGroup>
+        </div>
+      )}
+      <Pagination
+        style={{ marginBottom: "20px" }}
+        count={numberOfPages}
+        page={currentPage}
+        onChange={handleChange}
+        shape="rounded"
+      />
     </Container>
   );
 };
